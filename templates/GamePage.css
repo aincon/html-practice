@@ -59,8 +59,6 @@
 }
 
 .right button {
-    min-width: auto;
-    min-height: auto;
     position: absolute;
     top: 50%;
     transform: translate(0, -50%);
@@ -86,26 +84,12 @@
     font-size: 9mm;
 }
 
-.left {
-    width: 20%;
-    min-width: auto;
-    height: 100%;
 
-    position: absolute;
-    left: 0;
-    transform: translate(0, 0);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .left button {
-    min-width: auto;
-    min-height: auto;
-    
     position: absolute;
     top: 50%;
-    transform: translate(0, -50%);    
+    transform: translate(0, -50%); 
 }
 
 .UpSideBar {
@@ -119,8 +103,6 @@
 
 .Map {
     position: absolute;
-    top: 0;
-    right: 0;
     background-color: #A9F07E;
     border: 1px solid black;
     border-top: 0px solid black;
@@ -143,18 +125,9 @@
 
 .up button {
     width: auto;
-    /* 버튼의 너비를 조정합니다. */
     height: 100%;
-    /* 버튼의 높이를 자동으로 설정합니다. */
     max-width: 500px;
-    /* 버튼의 최대 너비를 설정할 수 있습니다. */
     max-height: 500px;
-    /* 버튼의 최대 높이를 설정할 수 있습니다. */
-    min-width: 50px;
-    /* 버튼의 최소 너비를 설정할 수 있습니다. */
-    min-height: 50px;
-    /* 버튼의 최소 높이를 설정할 수 있습니다. */
-    background-size: none;
     
 }
 #chat-window {
