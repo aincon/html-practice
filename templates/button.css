@@ -1,0 +1,36 @@
+button.class1 {
+    border: radius 10px;
+    background-color: #A9F07E;
+    width: 376px;
+    height: 113px;
+    border: 1px solid black;
+    margin: auto;
+    font-size: 9mm;
+}
+body {
+    width: 600px;
+    margin: 0 auto;
+    background-color: rgb(75, 75, 75);
+    padding: 0 20px 20px 20px;
+}
+div{
+    border: radius 10px;
+
+}
+div.class1 {
+    
+    border: radius 10px;
+    background-color: rgb(196, 196, 196);
+    width: 586px;
+    height: 442px;
+    padding: 0 20px 20px 20px;
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h1 {
+    color: white;
+    font-size: 20mm;
+}

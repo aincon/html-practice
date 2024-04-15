@@ -1,0 +1,166 @@
+
+.hidden {
+    display: none;
+}
+
+.field {
+    position: relative;
+    z-index: 0;
+    width: auto;
+    height: 100%;
+    min-width: 500px;
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.GamePage {
+    width: auto;
+    height: auto;
+    border: 3px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+}
+
+.LeftSidebar {
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    width: 50%;
+    height: 100%;
+
+}
+
+.Char {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #A9F07E;
+    width: 80%;
+    height: 100%;
+    border-right: 1px solid black;
+    font-size: 9mm;
+}
+
+.right {
+    width: 20%;
+    min-width: auto;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    transform: translate(0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right button {
+    min-width: auto;
+    min-height: auto;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.RightSideBar {
+    z-index: 2;
+    position: absolute;
+    right: 0;
+    width: 40%;
+    height: 100%;
+
+}
+
+.Chat {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #A9F07E;
+    border-left: 1px solid black;
+    width: 80%;
+    height: 100%;
+    font-size: 9mm;
+}
+
+.left {
+    width: 20%;
+    min-width: auto;
+    height: 100%;
+
+    position: absolute;
+    left: 0;
+    transform: translate(0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left button {
+    min-width: auto;
+    min-height: auto;
+    
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);    
+}
+
+.UpSideBar {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    width: 60%;
+    height: 30%;
+
+}
+
+.Map {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #A9F07E;
+    border: 1px solid black;
+    border-top: 0px solid black;
+    width: 100%;
+    height: 80%;
+    font-size: 9mm;
+}
+
+.up {
+    width: 100%;
+    min-width: auto;
+    height: 20%;
+    bottom: 0;
+    position: absolute;
+    transform: translate(0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.up button {
+    width: auto;
+    /* 버튼의 너비를 조정합니다. */
+    height: 100%;
+    /* 버튼의 높이를 자동으로 설정합니다. */
+    max-width: 500px;
+    /* 버튼의 최대 너비를 설정할 수 있습니다. */
+    max-height: 500px;
+    /* 버튼의 최대 높이를 설정할 수 있습니다. */
+    min-width: 50px;
+    /* 버튼의 최소 너비를 설정할 수 있습니다. */
+    min-height: 50px;
+    /* 버튼의 최소 높이를 설정할 수 있습니다. */
+    background-size: none;
+    
+}
+#chat-window {
+    width: 400px;
+    height: 300px;
+    border: 1px solid #ccc;
+    overflow-y: scroll;
+    margin-bottom: 5px;
+}
