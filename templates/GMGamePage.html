@@ -19,8 +19,8 @@
                 SHEET
             </div>
 
-            <div class="right">
-                <button onclick="toggleChar()">
+            <div class="RightButton">
+                <button id ="CharButton" onclick="toggleChar()">
                     <img src="../source/charcterpic.png" style="width: 100%; height: auto;">
                 </button>
             </div>
@@ -45,8 +45,8 @@
                 </div>
             </div>
 
-            <div id = "Button" class="left">
-                <button onclick="toggleChat()">
+            <div class="ChatButton">
+                <button id = "ChatButton" onclick="toggleChat()">
                     <img src="../source/chatpic.png" style="width: 100%; height: auto;">
                 </button>
             </div>
@@ -59,8 +59,8 @@
                 MAP
             </div>
 
-            <div id="Button" class="up">
-                <button onclick="toggleMap()">
+            <div class="MapButton">
+                <button id= "MapButton" onclick="toggleMap()">
                     <img src="../source/mappic.png" style="width: auto; height: 100%;">
                 </button>
             </div>
@@ -79,30 +79,36 @@
         //버튼이 테두리에 붙게 할 것
         function toggleChar() {
             var div = document.getElementById('Char');
+            var button = document.getElementById('CharButton');
             if (div.style.display === 'none') {
                 div.style.display = 'block';
+                button.style.right = "0";
             } else {
                 div.style.display = 'none';
+                button.style.right = "80%";
             }
         }
         function toggleChat() {
             var div = document.getElementById('Chat');
-            var button = document.getElementById('Button');
+            var button = document.getElementById('ChatButton');
             if (div.style.display === 'none') {
                 div.style.display = 'block';
+                button.style.left = "0";
                 
             } else {
                 div.style.display = 'none';
-                button.style.left= 0;
+                button.style.left = "80%";
             }
         }
         function toggleMap() {
             var div = document.getElementById('Map')
-            var button = document.getElementById('Button')
+            var button = document.getElementById('MapButton')
             if (div.style.display === 'none') {
                 div.style.display = 'block';
+                button.style.top = 0;
             } else {
                 div.style.display = 'none';
+                button.style.top = "80%";
             }
         }
         // 드래그로 맵 변경

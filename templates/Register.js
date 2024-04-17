@@ -1,64 +1,31 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.querySelector("form");
+// 필요한 모듈 가져오기
+const express = require('express');
+const bodyParser = require('body-parser');
 
-    form.addEventListener("submit", function(event) {
-        event.preventDefault(); // 기본 제출 행동 방지
+// Express 앱 생성
+const app = express();
 
-        // 닉네임 필드
-        const usernameField = document.getElementById("username");
-        const usernameValue = usernameField.value.trim();
+// POST 요청을 처리하기 위해 body-parser 미들웨어 사용
+app.use(bodyParser.urlencoded({ extended: true }));
 
-        // 비밀번호 필드
-        const passwordField = document.getElementById("password");
-        const passwordValue = passwordField.value;
+// POST 요청을 처리할 엔드포인트 생성
+app.post('/submit.txt', (req, res) => {
+    // 사용자가 제출한 데이터 가져오기
+    const username = req.body.username;
+    const password = req.body.password;
+    const passwordConfirmation = req.body.passwordConfirmation;
 
-        // 비밀번호 확인 필드
-        const passwordConfirmationField = document.getElementById("passwordConfirmation");
-        const passwordConfirmationValue = passwordConfirmationField.value;
+    // 여기서는 간단히 콘솔에 출력하겠지만, 실제로는 데이터베이스에 저장하거나 다른 작업을 수행해야 합니다.
+    console.log('닉네임:', username);
+    console.log('비밀번호:', password);
+    console.log('비밀번호 확인:', passwordConfirmation);
 
-        // 각 필드의 유효성을 확인합니다.
-        if (usernameValue === "") {
-            alert("닉네임을 입력하세요.");
-            return;
-        }
+    // 성공적으로 처리되었음을 클라이언트에 응답
+    res.send('회원가입이 완료되었습니다.');
+});
 
-        if (passwordValue === "") {
-            alert("비밀번호를 입력하세요.");
-            return;
-        }
-
-        if (passwordValue !== passwordConfirmationValue) {
-            alert("비밀번호가 일치하지 않습니다.");
-            return;
-        }
-
-        // JSON 형식으로 데이터 생성
-        const formData = {
-            username: usernameValue,
-            password: passwordValue,
-            passwordConfirmation: passwordConfirmationValue
-        };
-
-        // 서버로 데이터를 전송합니다.
-        fetch("/submit.txt", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("서버 응답 오류");
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("서버 응답:", data);
-            // 서버 응답에 따라 추가적인 작업을 수행할 수 있습니다.
-        })
-        .catch(error => {
-            console.error("오류 발생:", error);
-        });
-    });
+// 서버 시작
+const port = 5500;
+app.listen(port, () => {
+    console.log(`서버가 http://localhost:${port} 에서 실행 중입니다.`);
 });
