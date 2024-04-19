@@ -48,14 +48,15 @@
 
 
 
-.RightButton button {
+.CharButton button {
     z-index: 3;
     position: absolute;
     top: 50%;
-    right: 0;
+    left: 80%;
     transform: translate(0, -50%);
     width: 20%;
     height: auto;
+    max-width: 50px;
 }
 
 .RightSideBar {
@@ -83,10 +84,11 @@
     z-index: 3;
     position: absolute;
     top: 50%;
-    left: 0;
+    right: 80%;
     transform: translate(0, -50%);
     width: 20%;
     height: auto;
+    max-width: 50px;
 }
 
 .UpSideBar {
@@ -108,19 +110,21 @@
     font-size: 9mm;
 }
 .MapButton{
-    border: 10px solid black;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
     
 }
 .MapButton button {
     top: 80%;
-    z-index: 3;
+    z-index: 4;
     position: absolute;
     width: auto;
     height: 50px;
-    margin:0 auto;
+    max-height: 50px;
 }
 #chat-window {
-    width: 400px;
+    width: auto;
     height: 300px;
     border: 1px solid #ccc;
     overflow-y: scroll;
