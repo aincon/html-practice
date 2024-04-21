@@ -52,7 +52,7 @@
     z-index: 3;
     position: absolute;
     top: 50%;
-    left: 80%;
+    left: 40%;
     transform: translate(0, -50%);
     width: 20%;
     height: auto;
@@ -84,7 +84,7 @@
     z-index: 3;
     position: absolute;
     top: 50%;
-    right: 80%;
+    right: 32%;
     transform: translate(0, -50%);
     width: 20%;
     height: auto;
@@ -109,19 +109,15 @@
     height: 80%;
     font-size: 9mm;
 }
-.MapButton{
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    
-}
+
 .MapButton button {
-    top: 80%;
-    z-index: 4;
+    top: 24%;
+    z-index: 2;
     position: absolute;
     width: auto;
     height: 50px;
     max-height: 50px;
+    transform: translate(500%, 0%);
 }
 #chat-window {
     width: auto;
