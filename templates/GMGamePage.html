@@ -18,6 +18,11 @@
             <div id="Char" class="Char">
                 SHEET
             </div>
+            <div id ="CreateChar">
+                <button>
+                    +
+                </button>
+            </div>
 
         </div>
         <div class="CharButton">
@@ -67,9 +72,13 @@
         </div>
 
 
-        <div class="field" id="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div class="field" id="dropzone" >
+                <img src="../source/1map1.png" style="width: 100%; height: auto;">
 
-            <img src="../source/1map1.png" style="width: 100%; height: auto;">
+            
+            <div id="draggable">
+            <img src="../source/charcterpic.png" style="width: auto; height: auto; z-index: 3;">
+        </div>
         </div>
 
 
@@ -138,6 +147,67 @@
 
             reader.readAsDataURL(files[0]);
         }
+
+        
+        // JavaScript를 사용하여 드래그 앤 드롭 기능을 구현합니다.
+        // 객체를 드래그하여 HTML 요소 내에서 움직이게 됩니다.
+
+        // 드래그 가능한 객체를 선택합니다.
+        var draggableElement = document.getElementById('draggable');
+
+        // 드래그 기능을 구현하는 함수
+        function dragElement(element) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById(element.id + "-header")) {
+                // 만약 헤더가 존재한다면, 해당 헤더를 드래그하도록 설정합니다.
+                document.getElementById(element.id + "-header").onmousedown = dragMouseDown;
+            } else {
+                // 헤더가 없다면, 객체 전체를 드래그하도록 설정합니다.
+                element.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // 마우스 버튼을 클릭할 때의 객체의 초기 위치를 기록합니다.
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // 마우스를 움직일 때마다 객체를 이동시킵니다.
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // 마우스가 움직일 때마다 객체의 위치를 변경합니다.
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // 객체를 새 위치로 이동시킵니다.
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                // 마우스 버튼을 놓을 때, 드래그 기능을 중단합니다.
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        // 객체를 드래그 가능하게 만듭니다.
+        dragElement(draggableElement);
+        // 객체를 우클릭하여 배경색을 변경하는 함수
+        draggableElement.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            var customProperty = prompt("Enter custom property value:");
+            if (customProperty !== null) {
+                draggableElement.style.backgroundColor = customProperty;
+            }
+        });
+
     </script>
 </body>
 

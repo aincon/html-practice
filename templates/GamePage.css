@@ -126,3 +126,10 @@
     overflow-y: scroll;
     margin-bottom: 5px;
 }
+#draggable {
+    width: 100px;
+    height: 100px;
+    background-color: #3498db;
+    cursor: move; /* 드래그 아이콘으로 마우스 커서 변경 */
+    position: absolute;
+}
