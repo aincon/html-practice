@@ -12,21 +12,20 @@
 
 <body>
     <div class="GamePage">
-        
+
         <!--시트창-->
         <div class="LeftSidebar" id="LeftSidebar">
             <div id="Char" class="Char">
                 SHEET
-            </div>
-            <div id ="CreateChar">
-                <button>
+
+                <button id="CreateCharButton" onclick="CreateChar()">
                     +
                 </button>
             </div>
 
         </div>
         <div class="CharButton">
-            <button id ="CharButton" onclick="toggleChar()">
+            <button id="CharButton" onclick="toggleChar()">
                 <img src="../source/charcterpic.png" style="width: 100%; height: auto;">
             </button>
         </div>
@@ -36,11 +35,11 @@
         <div class="RightSideBar" id="RightSideBar">
             <div id="Chat" class="Chat">
                 <div class="Chatlog">CHAT</div>
-                <div class> 
+                <div class>
                     <div id="chat-window"></div>
                     <form action="">
                         <label for="sendto"> send to</label>
-                        <select name="name" id = "name">
+                        <select name="name" id="name">
                             <option value="GM"> GM</option>
                             <option value="ALL"> ALL</option>
                         </select>
@@ -52,7 +51,7 @@
         </div>
 
         <div class="ChatButton">
-            <button id = "ChatButton" onclick="toggleChat()">
+            <button id="ChatButton" onclick="toggleChat()">
                 <img src="../source/chatpic.png" style="width: 100%; height: auto;">
             </button>
         </div>
@@ -65,25 +64,39 @@
             </div>
         </div>
 
-        <div class="MapButton" >
-            <button id= "MapButton" onclick="toggleMap()">
+        <div class="MapButton">
+            <button id="MapButton" onclick="toggleMap()">
                 <img src="../source/mappic.png" style="width: auto; height: 100%;">
             </button>
         </div>
 
+        <!--필드-->
+        <div class="field" id="dropzone">
+            <img src="../source/1map1.png" style="width: 100%; height: auto;">
 
-        <div class="field" id="dropzone" >
-                <img src="../source/1map1.png" style="width: 100%; height: auto;">
 
-            
-            <div id="draggable">
-            <img src="../source/charcterpic.png" style="width: auto; height: auto; z-index: 3;">
-        </div>
+            <div id="draggable"> <!--캐릭터 여러개-->
+                <img src="../source/charcterpic.png" >
+            </div>
         </div>
 
 
     </div>
     <script>
+        //캐릭터 생성
+        function CreateChar(){
+            // 사용자 이름 받기
+            var username = "fds";
+            var character = document.createElement("div");
+            character.id = "draggable";
+            character.style = username;
+            
+            character.innerHTML = `${username}<img src="../source/charcterpic.png">`;
+            
+        }
+        function onStatus() {// 캐릭터 시트 창에 DB불러와서 사용자 속성 설정
+            
+        }
         //버튼 눌러서 창 온오프
         function toggleChar() {
             var div = document.getElementById('Char');
@@ -107,7 +120,7 @@
                 div.style.display = 'block';
                 button.style.right = "32%";
                 bar.style.right = "-0%";
-                
+
             } else {
                 div.style.display = 'none';
                 button.style.right = "0";
@@ -148,7 +161,7 @@
             reader.readAsDataURL(files[0]);
         }
 
-        
+
         // JavaScript를 사용하여 드래그 앤 드롭 기능을 구현합니다.
         // 객체를 드래그하여 HTML 요소 내에서 움직이게 됩니다.
 
@@ -200,7 +213,7 @@
         // 객체를 드래그 가능하게 만듭니다.
         dragElement(draggableElement);
         // 객체를 우클릭하여 배경색을 변경하는 함수
-        draggableElement.addEventListener('contextmenu', function(e) {
+        draggableElement.addEventListener('contextmenu', function (e) {
             e.preventDefault();
             var customProperty = prompt("Enter custom property value:");
             if (customProperty !== null) {

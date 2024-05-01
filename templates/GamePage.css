@@ -1,4 +1,3 @@
-
 .hidden {
     display: none;
 }
@@ -34,7 +33,11 @@
     height: 100%;
 
 }
-
+.CreateCharButton {
+    z-index: 2;
+    position: absolute;
+    right:0;
+}
 .Char {
     position: absolute;
     top: 0;
@@ -67,6 +70,7 @@
     height: 100%;
 
 }
+
 
 .Chat {
     position: absolute;
@@ -132,4 +136,7 @@
     background-color: #3498db;
     cursor: move; /* 드래그 아이콘으로 마우스 커서 변경 */
     position: absolute;
+    width: auto;
+    height: auto; 
+    z-index: 3;
 }
