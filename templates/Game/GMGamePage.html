@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="GamePage.css" rel="stylesheet" type="text/css" />
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="GamePage">
+
+        <!--시트창-->
+        <div class="LeftSidebar" id="LeftSidebar">
+            <div id="Char" class="Char">
+                SHEET
+
+                <button id="CreateCharButton" onclick="CreateChar()">
+                    +
+                </button>
+            </div>
+
+        </div>
+        <div class="CharButton">
+            <button id="CharButton" onclick="toggleChar()">
+                <img src="../source/charcterpic.png" style="width: 100%; height: auto;">
+            </button>
+        </div>
+
+
+        <!--채팅창-->
+        <div class="RightSideBar" id="RightSideBar">
+            <div id="Chat" class="Chat">
+                <div class="Chatlog">CHAT</div>
+                <div class>
+                    <div id="chat-window"></div>
+                    <form action="">
+                        <label for="sendto"> send to</label>
+                        <select name="name" id="name">
+                            <option value="GM"> GM</option>
+                            <option value="ALL"> ALL</option>
+                        </select>
+                    </form>
+                    <input type="text" id="message" placeholder="메시지를 입력하세요">
+                    <button onclick="sendMessage()">전송</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ChatButton">
+            <button id="ChatButton" onclick="toggleChat()">
+                <img src="../source/chatpic.png" style="width: 100%; height: auto;">
+            </button>
+        </div>
+
+
+        <!--맵창-->
+        <div class="UpSideBar" id="UpSideBar">
+            <div id="Map" class="Map">
+                MAP
+            </div>
+        </div>
+
+        <div class="MapButton">
+            <button id="MapButton" onclick="toggleMap()">
+                <img src="../source/mappic.png" style="width: auto; height: 100%;">
+            </button>
+        </div>
+
+        <!--필드-->
+        <div class="field" id="dropzone">
+            <img src="../source/1map1.png" style="width: 100%; height: auto;">
+
+
+            <div id="draggable"> <!--캐릭터 여러개-->
+                <img src="../source/charcterpic.png" >
+            </div>
+        </div>
+
+
+    </div>
+    <script>
+        //캐릭터 생성
+        function CreateChar(){
+            // 사용자 이름 받기
+            var username = "fds";
+            var character = document.createElement("div");
+            character.id = "draggable";
+            character.style = username;
+            
+            character.innerHTML = `${username}<img src="../source/charcterpic.png">`;
+            
+        }
+        function onStatus() {// 캐릭터 시트 창에 DB불러와서 사용자 속성 설정
+            
+        }
+        //버튼 눌러서 창 온오프
+        function toggleChar() {
+            var div = document.getElementById('Char');
+            var button = document.getElementById('CharButton');
+            var bar = document.getElementById('LeftSidebar');
+            if (div.style.display === 'none') {
+                div.style.display = 'block';
+                button.style.left = "40%";
+                bar.style.left = "-0%";
+            } else {
+                div.style.display = 'none';
+                button.style.left = "0";
+                bar.style.left = "-60%";
+            }
+        }
+        function toggleChat() {
+            var div = document.getElementById('Chat');
+            var button = document.getElementById('ChatButton');
+            var bar = document.getElementById('RightSideBar');
+            if (div.style.display === 'none') {
+                div.style.display = 'block';
+                button.style.right = "32%";
+                bar.style.right = "-0%";
+
+            } else {
+                div.style.display = 'none';
+                button.style.right = "0";
+                bar.style.right = "-60%";
+            }
+        }
+        function toggleMap() {
+            var div = document.getElementById('Map')
+            var button = document.getElementById('MapButton')
+            var bar = document.getElementById('UpSideBar');
+            if (div.style.display === 'none') {
+                div.style.display = 'block';
+                button.style.top = "24%";
+                bar.style.top = "-0%";
+            } else {
+                div.style.display = 'none';
+                button.style.top = 0;
+                bar.style.top = "-60%";
+            }
+        }
+        // 드래그로 맵 변경
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            var files = event.dataTransfer.files;
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = document.createElement("img");
+                img.src = e.target.result;
+                document.getElementById("dropzone").innerHTML = "";
+                document.getElementById("dropzone").appendChild(img);
+            };
+
+            reader.readAsDataURL(files[0]);
+        }
+
+
+        // JavaScript를 사용하여 드래그 앤 드롭 기능을 구현합니다.
+        // 객체를 드래그하여 HTML 요소 내에서 움직이게 됩니다.
+
+        // 드래그 가능한 객체를 선택합니다.
+        var draggableElement = document.getElementById('draggable');
+
+        // 드래그 기능을 구현하는 함수
+        function dragElement(element) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById(element.id + "-header")) {
+                // 만약 헤더가 존재한다면, 해당 헤더를 드래그하도록 설정합니다.
+                document.getElementById(element.id + "-header").onmousedown = dragMouseDown;
+            } else {
+                // 헤더가 없다면, 객체 전체를 드래그하도록 설정합니다.
+                element.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // 마우스 버튼을 클릭할 때의 객체의 초기 위치를 기록합니다.
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // 마우스를 움직일 때마다 객체를 이동시킵니다.
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // 마우스가 움직일 때마다 객체의 위치를 변경합니다.
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // 객체를 새 위치로 이동시킵니다.
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                // 마우스 버튼을 놓을 때, 드래그 기능을 중단합니다.
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        // 객체를 드래그 가능하게 만듭니다.
+        dragElement(draggableElement);
+        // 객체를 우클릭하여 배경색을 변경하는 함수
+        draggableElement.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+            var customProperty = prompt("Enter custom property value:");
+            if (customProperty !== null) {
+                draggableElement.style.backgroundColor = customProperty;
+            }
+        });
+
+    </script>
+</body>
+
+</html>
