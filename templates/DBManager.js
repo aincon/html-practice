@@ -81,6 +81,23 @@ class DBManager {
         }
     });
   }
+  getUserId(callback) {
+    // 데이터베이스에서 사용자 NM 가져오는 쿼리 실행
+    const query = "SELECT user_nm FROM userinfo LIMIT 1"; // 예시 쿼리, 사용자 테이블에 따라 쿼리가 달라질 수 있음
+    this.connection.query(query, (error, results, fields) => {
+        if (error) {
+            console.error('쿼리 실행 실패:', error.stack);
+            callback(null); // 오류가 발생하면 null을 콜백으로 전달
+            return;
+        }
+
+        // 결과에서 사용자 NM 추출
+        const userNM = results[0].user_nm; // 예시 결과에서 사용자 NM를 가져옴
+
+        // 콜백으로 사용자 NM 전달
+        callback(userNM);
+    });
+  }
 }
 
 
