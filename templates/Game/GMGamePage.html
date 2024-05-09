@@ -18,9 +18,19 @@
             <div id="Char" class="Char">
                 SHEET
 
-                <button id="CreateCharButton" onclick="CreateChar()">
-                    +
-                </button>
+                <form id="CreateChar" action="/char" method="POST">
+                    <label for="username">닉네임:</label>
+                    <input type="text" name="username" placeholder="닉네임" required><br><br>
+                
+                    <label for="id">힘:</label>
+                    <input type="text" name="str" required><br><br>
+                    <label for="id">지능:</label>
+                    <input type="text" name="intelligence" required><br><br>
+                    <label for="id">외모:</label>
+                    <input type="text" name="appearance" required><br><br>
+                    
+                    <input type="submit" value="char">
+                </form>
             </div>
 
         </div>

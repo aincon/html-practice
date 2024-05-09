@@ -1,41 +1,89 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="MainPage.css" rel="stylesheet" type="text/css" />
+
+    <script>
+    </script>
 </head>
-<body> 방 입장, 커뮤니티, 로그인, 회원가입
-    <div class="class1">
-    <div id = "FindRoom">
 
-        <label for="RoomNumber">방 번호 입력:</label>
-        <input>
-        <button onclick="location.href='../Game/RoleChoicePage.html'">
-            RoomNumber
-        </button>
-    </div><br>
-    
-    <div id = "Community">
-        <button onclick="location.href='CommunityPage.html'">
-            Community
-        </button>
-    </div><br>
+<body>
+    <div class="topDiv">
+        <button onclick="location.href='../LgnRgstr/LoginPage.html'">Login</button>
+        <button onclick="location.href='../LgnRgstr/RegisterPage.html'"> Register</button>
+    </div>
+    <h1>With Me </h1>
 
-    <div>
-        <div id = "login" >
-            <button onclick="location.href='../LgnRgstr/LoginPage.html'">
-                login
-            </button>
-        </div>
-        <div id = "register">
-            <button onclick="location.href='../LgnRgstr/RegisterPage.html'">
-                register
-            </button>
-        </div>
+    <div id="profileInfo">
+        <button onclick="fetchProfile()"> </button>
+        <!-- 여기에 프로필 정보가 표시됩니다. -->
     </div>
+    <div class="board">
+        <div id="posts">
+            <div class="post">
+                <h2>첫 번째 게시글</h2> 
+                <p>첫 번째 게시글의 내용입니다.</p>
+            </div>
+            <div class="post">
+                <h2>두 번째 게시글</h2>
+                <p>두 번째 게시글의 내용입니다.</p>
+            </div>
+            <div class="post">
+                <h2>세 번째 게시글</h2>
+                <p>세 번째 게시글의 내용입니다.</p>
+            </div>
+        </div>
+        <button onclick="addPost()">게시글 추가</button>
     </div>
+    <script>
+        // JavaScript로 동적으로 게시글 추가
+        function addPost() {
+            var title = prompt("게시글 제목을 입력하세요:");
+            var post = prompt("게시글 내용을 입력하세요:");
+            if (title) {
+                var postDiv = document.createElement("div");
+                postDiv.className = "post";
+                postDiv.innerHTML = "<h2>" + title + "</h2><p>" + post + "</p>";
+                fetchProfile();
+                document.getElementById("posts").appendChild(postDiv);
+            }
+        }
+
+        function fetchProfile() {
+            fetch('http://127.0.0.1:52271/profile', {
+                method: 'GET',
+                credentials: 'same-origin'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch profile');
+                    }
+                    return response.json();
+                })
+                .then(profileData => {
+                    // 프로필 정보를 받아와서 HTML에 추가
+                    const data = profileData;
+                    const profileInfoDiv = document.getElementById('profileInfo');
+                    profileInfoDiv.innerHTML = `
+                    <p>User Profile:</p>
+                    <p>Name: ${data.username}</p>
+                    <!-- 여기에 기타 프로필 정보를 추가하세요 -->
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error fetching profile:', error);
+                });
+        }
+
+        // 페이지 로드 시 프로필 정보 요청
+        window.onload = function () {
+            fetchProfile();
+        };
+    </script>
 </body>
+
 </html>
