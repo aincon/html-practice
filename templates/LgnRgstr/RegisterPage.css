@@ -1,25 +1,28 @@
-
 form {
     display: inline-block;
     text-align: center;
 }
+
 label {
     display: block;
 }
+
 input[type="text"],
 input[type="password"],
 input[type="passwordConfirmation"] {
     width: 100%;
     padding: 8px;
 }
-input[type="submit"]{
+
+input[type="submit"] {
     width: 110.5%;
     padding: 8px;
     margin-bottom: 10px;
     background-color: #a9f07e;
     border-radius: 10px;
-    
+
 }
+
 .container {
     font-family: arial;
     font-size: 24px;
@@ -31,4 +34,4 @@ input[type="submit"]{
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}

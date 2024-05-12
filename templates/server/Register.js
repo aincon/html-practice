@@ -1,16 +1,16 @@
-
-const { urlencoded } = require('body-parser');
-const DBManager = require('./DBManager');
+const bodyParser = require('body-parser');
+const DBManager = require('./userDBManager');
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
-const cookieParser = require("cookie-parser");
 // Express 앱 생성
 const app = express();
 const dbManager = new DBManager();
+
+
+
+// CORS 설정
 app.use(cors());
-
-
 // 세션 설정
 app.use(session({
     secret: 'my key', // 세션 암호화에 사용할 키
@@ -19,15 +19,9 @@ app.use(session({
 }));
 
 
-// Body Parser 미들웨어 사용 설정
-app.use(urlencoded({ extended: true }));
-
-app.use(cookieParser());
-
-
-// CORS 설정
-app.use(cors());
-
+// Body-parser 설정
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //라우트합니다.
 app.post('/register', (req, res) => {
@@ -57,7 +51,7 @@ app.post('/login', (req, res) => {
         id: req.body.id,
         password: req.body.password
     };
-    
+
     // DBManager를 통해 로그인 정보 확인
     dbManager.checkLogin(userData, (authenticated, username, uniqueNum) => {
         if (authenticated) {
@@ -66,8 +60,10 @@ app.post('/login', (req, res) => {
             privateKey = String(uniqueNum);
             userData['nm'] = username;
             session[privateKey] = userData;
-            req.session.username = username;
-            console.log('로그인 성공(session): ',session);
+            req.session.username = {
+                username: username
+            };
+            console.log('로그인 성공(session): ', session);
             res.redirect('http://localhost:5500/templates/Main/MainPage.html');
         } else {
             console.log('로그인 실패');
@@ -79,18 +75,18 @@ app.post('/login', (req, res) => {
 app.get('/profile', (req, res) => {
     // 세션에서 사용자 정보 가져오기
     console.log('profile:', session[privateKey].nm);
+    //const username = req.session.data;
     const username = session[privateKey].nm;
-    console.log('profile:', username);
-        res.json({ username: username }); // 세션에 저장된 사용자 이름을 클라이언트에게 반환
-    
+    console.log('profile(res):', username);
+    res.json({ username: username }); // 세션에 저장된 사용자 이름을 클라이언트에게 반환
+
 });
 
 // 로그아웃 라우트
 app.get('/logout', (req, res) => {
-    // 쿠키 삭제
-    res.clearCookie('userId');
-    res.clearCookie('username');
-    res.redirect('/login');
+    // 세션 제거
+    delete session[privateKey];
+    res.redirect('http://127.0.0.1:5500/templates/LgnRgstr/LoginPage.html');
 });
 
 // 사용자 ID를 가져오는 엔드포인트 설정
