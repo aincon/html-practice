@@ -1,18 +1,33 @@
 
-// 세션에 저장된 캐릭터 전부 표시
+// 저장된 캐릭터 전부 표시
 function renderCharacterInfo() {
+    // 세션 스토리지에 저장된 캐릭터 정보 표시
     for (let i = 0; i < sessionStorage.length; i++) {
         const key = sessionStorage.key(i);
         if (key.startsWith('characterInfo_')) {
             const characterInfo = JSON.parse(sessionStorage.getItem(key));
-            renderCharacter(characterInfo, key.split('_')[1]); // 캐릭터 ID 전달
+            // 캐릭터 이름을 사용하여 렌더링합니다.
+            renderCharacter(characterInfo);
         }
     }
-}
 
-function renderCharacter(characterInfo, characterId) {
+    // 데이터베이스에서 저장된 캐릭터 정보 표시
+    fetch('http://127.0.0.1:3001/getAllChars')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(characterInfo => {
+                // 캐릭터 정보를 렌더링합니다.
+                renderCharacter(characterInfo);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // 오류가 발생하면 적절한 처리를 수행합니다.
+        });
+}
+function renderCharacter(characterInfo) {
     // 캐릭터 이름을 가져옵니다.
-    const username = characterInfo.username;
+    const username = characterInfo.name_ch;
 
     // 캐릭터 이름을 표시하는 레이블 생성
     const nameLabel = document.createElement('label');
@@ -22,25 +37,32 @@ function renderCharacter(characterInfo, characterId) {
     const charContainer = document.createElement('div');
     charContainer.classList.add('character-container');
     charContainer.style.cursor = 'pointer'; // 클릭 가능한 커서 설정
-    charContainer.setAttribute('data-character-id', characterId); // 캐릭터 ID 속성 추가
-
 
     // 삭제 버튼을 추가합니다.
     const deleteButton = document.createElement('button');
     deleteButton.classList.add('charDel');
     deleteButton.textContent = username + ' 삭제';
     deleteButton.addEventListener('click', function () {
-        // 클릭 이벤트가 발생한 버튼의 부모 요소인 캐릭터 컨테이너를 찾습니다.
-        const characterContainer = event.target.parentNode;
-        if (characterContainer) {
-            // 해당 캐릭터 컨테이너를 삭제합니다.
-            characterContainer.remove();
-
-
-            location.reload();
-        }
-        removeCharacterInfo(characterId);
-
+        // 해당 캐릭터를 서버로부터 삭제합니다.
+        const characterName = characterInfo.username;
+        fetch(`http://127.0.0.1:3001/deleteCharacter/${characterName}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('캐릭터 삭제 중 오류가 발생했습니다.');
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log(data); // 성공 메시지 출력
+            // 성공적으로 삭제되면 해당 캐릭터 컨테이너를 삭제합니다.
+            charContainer.remove();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // 오류가 발생하면 적절한 처리를 수행합니다.
+        });
     });
     nowChar.appendChild(deleteButton);
 
@@ -66,8 +88,10 @@ function showCharacterInfo(characterInfo) {
 
     // 닉네임 정보를 추가합니다.
     const usernameLabel = document.createElement('label');
-    usernameLabel.textContent = `닉네임: ${characterInfo.username}`;
+
+    usernameLabel.textContent = `닉네임: ${characterInfo.name_ch}`;
     nowChar.appendChild(usernameLabel);
+    alert(JSON.stringify(characterInfo));
 
     nowChar.appendChild(document.createElement("br"));
     // 스탯 정보를 추가합니다.
@@ -83,40 +107,62 @@ function showCharacterInfo(characterInfo) {
     });
     nowChar.appendChild(statsList);
 
-
     // 삭제 버튼을 추가합니다.
     const deleteButton = document.createElement('button');
     deleteButton.classList.add('charDel');
     deleteButton.textContent = `${characterInfo.username} 삭제`;
     deleteButton.addEventListener('click', function () {
-        // 클릭 이벤트가 발생한 버튼의 부모 요소인 캐릭터 컨테이너를 찾습니다.
-        const characterContainer = event.target.parentNode;
-        if (characterContainer) {
-            // 해당 캐릭터 컨테이너를 삭제합니다.
-            characterContainer.remove();
-
-
-            location.reload();
-        }
-        removeCharacterInfo(characterInfo);
+        // 해당 캐릭터를 서버로부터 삭제합니다.
+        const characterName = characterInfo.username;
+        fetch(`http://127.0.0.1:3001/deleteCharacter/${characterName}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('캐릭터 삭제 중 오류가 발생했습니다.');
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log(data); // 성공 메시지 출력
+            // 성공적으로 삭제되면 채팅 창의 이름을 초기화합니다.
+            const chatName = document.getElementById('chatName');
+            chatName.textContent = '채팅:';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // 오류가 발생하면 적절한 처리를 수행합니다.
+        });
     });
     nowChar.appendChild(deleteButton);
-    // 선택한 캐릭터의 닉네임을 채팅 창의 이름으로 추가
-    const chatName = document.getElementById('chatName');
-    chatName.textContent = `${characterInfo.username}:`;
 }
 
 // 캐릭터 삭제 함수
-function removeCharacterInfo(characterId) {
-    // 세션 스토리지에서 해당 캐릭터 정보 삭제
-    sessionStorage.removeItem(`characterInfo_${characterId}`);
-
-    // 해당 캐릭터 컨테이너를 화면에서도 삭제
-    const characterContainer = document.querySelector(`[data-character-id="${characterId}"]`);
-    if (characterContainer) {
-        characterContainer.remove();
-    }
-    renderCharacterInfo();
+function removeCharacterInfo(name) {
+    // 서버로 DELETE 요청을 보냅니다.
+    fetch(`http://127.0.0.1:3001/deleteCharacter/${name}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('캐릭터 삭제 중 오류가 발생했습니다.');
+        }
+        return response.text();
+    })
+    .then(data => {
+        console.log(data); // 성공 메시지 출력
+        // 성공적으로 삭제되면 세션 스토리지에서 해당 캐릭터 정보를 삭제하고 화면에서도 삭제합니다.
+        sessionStorage.removeItem(`characterInfo_${name}`);
+        const characterContainer = document.querySelector(`[data-character-id="${name}"]`);
+        if (characterContainer) {
+            characterContainer.remove();
+        }
+        renderCharacterInfo();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // 오류가 발생하면 적절한 처리를 수행합니다.
+    });
 }
 
 // 캐릭터 생성 함수
@@ -127,17 +173,28 @@ function createCharacter() {
     // 스탯 정보 가져오기
     const charStats = JSON.parse(sessionStorage.getItem('charStats')) || [];
 
-    // 고유한 캐릭터 ID 생성 (예: 현재 시간을 기반으로 생성)
-    const characterId = Date.now().toString(); // 현재 시간을 문자열로 변환하여 사용
-
     // 닉네임과 스탯 정보를 하나의 객체로 묶기
     const characterInfo = {
         username: usernameLabel,
         stats: charStats
     };
-
-    // 세션 스토리지에 캐릭터 정보 저장
-    sessionStorage.setItem(`characterInfo_${characterId}`, JSON.stringify(characterInfo));
+    //{"username":"ㅁㅁ","stats":[{"name":"ㅁㅁㅁ","value":"2"}]}
+    // 서버로 POST 요청 보내기
+    fetch('http://127.0.0.1:3001/createCharacter', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(characterInfo)
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 서버에서의 응답 처리
+            alert(data.message); // 예를 들어, 성공 메시지 또는 에러 메시지를 받을 수 있음
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
     // 알림 표시
     alert('캐릭터가 생성되었습니다!');
@@ -154,34 +211,7 @@ function createCharacter() {
     location.reload()
 }
 
-// 드래그 앤 드롭을 처리하는 함수
-function makeDraggable(element) {
-    let isDragging = false;
-    let offsetX, offsetY;
 
-    element.addEventListener('mousedown', function (e) {
-        isDragging = true;
-        offsetX = e.clientX - element.getBoundingClientRect().left;
-        offsetY = e.clientY - element.getBoundingClientRect().top;
-    });
-
-    document.addEventListener('mousemove', function (e) {
-        if (!isDragging) return;
-
-        const field = document.getElementById('field');
-        const fieldRect = field.getBoundingClientRect();
-
-        const x = e.clientX - fieldRect.left - offsetX;
-        const y = e.clientY - fieldRect.top - offsetY;
-
-        element.style.left = x + 'px';
-        element.style.top = y + 'px';
-    });
-
-    document.addEventListener('mouseup', function () {
-        isDragging = false;
-    });
-}
 // 닉네임 변경 함수
 function nameEdit() {
     const newUsername = prompt('새로운 닉네임을 입력하세요:');
@@ -254,5 +284,34 @@ function renderStats() {
 
         charStatsContainer.appendChild(statElement);
         charStatsContainer.appendChild(deleteButton);
+    });
+}
+
+// 드래그 앤 드롭을 처리하는 함수
+function makeDraggable(element) {
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    element.addEventListener('mousedown', function (e) {
+        isDragging = true;
+        offsetX = e.clientX - element.getBoundingClientRect().left;
+        offsetY = e.clientY - element.getBoundingClientRect().top;
+    });
+
+    document.addEventListener('mousemove', function (e) {
+        if (!isDragging) return;
+
+        const field = document.getElementById('field');
+        const fieldRect = field.getBoundingClientRect();
+
+        const x = e.clientX - fieldRect.left - offsetX;
+        const y = e.clientY - fieldRect.top - offsetY;
+
+        element.style.left = x + 'px';
+        element.style.top = y + 'px';
+    });
+
+    document.addEventListener('mouseup', function () {
+        isDragging = false;
     });
 }
