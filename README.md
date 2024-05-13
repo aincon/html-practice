@@ -9,3 +9,7 @@
 8. mysql
 
 터미널에서 npm install xxx로 설치할 것.
+
+db는 자체적으로 만들지 않고 ㅣㅣㅣㅣ을 통해서 테이블과 속성을 미리 입력해두었다.
+관련 정보는 userDBManager.js에 참조
+
