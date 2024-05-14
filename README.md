@@ -8,34 +8,33 @@
 
 #### 1. node   
     node.js를 통해 서버를 구축하였다.
-
+    (https://nodejs.org/en)에서 다운받는
 #### 2. express
     요청과 응답처리를 하는데 사용하였다.
-
+    npm install express
 #### 3. ws
-
     채팅을 구현하는 데 사용하였다.
-
+    npm install ws
 #### 4. http
 
     HTTP요청, 응답을 관리한다.
-
+    npm install http
 #### 5. body-parser
 
     HTTP요청의 body를 추출하는 데 사용한다.
-
+    npm install body-parser
 #### 6. express-session
 
     세션관리를 하는 데 사용한다. 캐릭터를 생성하기 전 단계에서 사용하였다.
-
+    npm install express-session
 #### 7. cors
 
     다른 도메인에서 호스팅되는 리소스에 접근할 수 있도록 한다.
-
+    npm install cors
 #### 8. mysql
 
     node.js에서 mysql을 사용하기 위해 설치한다.
-
+    npm install mysql
 #### 터미널에서 npm install xxx로 설치할 것.
 
     또한 visual studio code의 Live Server을 설치하여 포트를 연다.
@@ -93,7 +92,7 @@
 ---
 ## DBMS
 
-    db는 자체적으로 만들지 않고HeidiSQL을 통해서 테이블과 속성을 미리 입력해두었다.
+    db는 자체적으로 만들지 않고 HeidiSQL을 통해서 테이블과 속성을 미리 입력해두었다. mysql 문법을 사용한다.
     
     해당 폴더에는 각각 charDBManager.js, postDBManager.js, userDBManager.js가 있다.
     
@@ -131,13 +130,13 @@
 
 ---
 ## 서버
-터미널에서 
-
-cd/templates/server/ 
-
-node *.js (Charserver.js, Chatserver.js, postServer.js, Reigister.js)
-
-을 통해서 서버를 열 수 있다.
+    터미널에서 
+    
+    cd/templates/server/ 
+    
+    node *.js (Charserver.js, Chatserver.js, postServer.js, Reigister.js)
+    
+    을 통해서 서버를 열 수 있다.
 
 ---
 ## 버그 및 수정사항
