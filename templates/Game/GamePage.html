@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="GamePage.css" rel="stylesheet" type="text/css" />
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="GamePage">
+
+        <!--시트창-->
+        <div class="StatBar" id="LeftSidebar">
+            <div id="Char" class="Char" style="display: none;">
+
+
+                <label class="username" id="usernameLabel">닉네임</label>
+                <button id="nameEdit" onclick="nameEdit()" title="닉네임 변경">닉네임 변경</button>
+                <form id="statList" action="">
+                </form>
+                <br>
+                <input id="statName" class="stat" type="text" placeholder="속성">:
+                <input id="statValue" type="number" placeholder="값">
+                <button id="statAdd" onclick="statAdd()" title="스탯 추가">+</button>
+                <button id="createCharacterButton" onclick="createCharacter()">캐릭터 생성</button>
+
+                <div id="nowChar">
+
+                </div>
+            </div>
+
+        </div>
+        <div class="StatButton">
+            <button id="CharButton" onclick="toggleChar()">
+                <img src="../../source/charcterpic.png" style="width: 100%; height: auto;">
+            </button>
+        </div>
+
+
+        <!--채팅창-->
+        <div class="RightSideBar" id="RightSideBar">
+            <div id="Chat" class="Chat" style="display: none;">
+                <div class="Chatlog">CHAT</div>
+                <div class>
+                    <div id="chat-window"></div>
+                    <label id="chatName"> </label>
+                    <input type="text" id="message" placeholder="메시지를 입력하세요">
+                    <button onclick="sendMessage()">전송</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ChatButton">
+            <button id="ChatButton" onclick="toggleChat()">
+                <img src="../../source/chatpic.png" style="width: 100%; height: auto;">
+            </button>
+        </div>
+
+
+        <!--맵창-->
+        <div class="UpSideBar" id="UpSideBar">
+            <div id="Map" class="Map" style="display: none;">
+                MAP
+            </div>
+            <div id="Maps"> </div>
+        </div>
+
+        <div class="MapButton">
+            <button id="MapButton" onclick="toggleMap()">
+                <img src="../../source/mappic.png" style="width: auto; height: 100%;">
+            </button>
+        </div>
+
+        <!-- 필드 -->
+        <div class="field" id="field">
+            <img id="selectedImage" src="../../source/1map1.png" style="width: 100%; height: auto;">
+
+
+            <!-- 캐릭터 여러개 -->
+            <div id="characterContainers"></div>
+        </div>
+
+    </div>
+    <!-- 파일 선택 버튼 -->
+    <input type="file" id="imageInput" accept="image/*">
+
+
+    <script src="Game.js"></script>
+    <script src="charMaker.js"></script>
+    <script src="Chat.js"></script>
+    <script>
+
+        window.onload = function () {
+            // 페이지가 로드될 때 세션에 저장된 닉네임을 표시합니다.
+            const usernameLabel = document.getElementById('usernameLabel');
+            const savedUsername = sessionStorage.getItem('username');
+            if (savedUsername) {
+                usernameLabel.textContent = savedUsername;
+            }
+            renderStats();
+            renderCharacterInfo();
+        };
+
+        // 파일 선택 input에 change 이벤트 추가
+        document.getElementById('imageInput').addEventListener('change', changeImage);
+        function changeImage(event) {
+            // 파일이 선택되었는지 확인합니다.
+            if (event.target.files.length > 0) {
+                // 선택된 파일 가져오기
+                var selectedFile = event.target.files[0];
+
+                // 선택된 파일이 이미지인지 확인합니다.
+                if (selectedFile.type.startsWith('image/')) {
+                    // 선택된 파일을 URL.createObjectURL() 메서드를 사용하여 이미지 URL로 변환합니다.
+                    var imageURL = URL.createObjectURL(selectedFile);
+
+                    // 선택된 이미지를 selectedImage 요소에 표시합니다.
+                    var selectedImage = document.getElementById('selectedImage');
+                    selectedImage.src = imageURL;
+                } else {
+                    // 선택된 파일이 이미지가 아닌 경우 경고를 표시합니다.
+                    alert('이미지 파일을 선택해주세요.');
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
