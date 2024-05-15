@@ -31,7 +31,7 @@
 .StatBar {
     z-index: 2;
     position: absolute;
-    left: 0;
+    left: -60%;
     width: 50%;
     height: 100%;
 
@@ -46,7 +46,7 @@
 .Char {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 0%;
     background-color: #A9F07E;
     width: 80%;
     height: 100%;
@@ -88,7 +88,7 @@
 .RightSideBar {
     z-index: 2;
     position: absolute;
-    right: 0;
+    right: -60%;
     width: 40%;
     height: 100%;
 
@@ -121,7 +121,7 @@
 .UpSideBar {
     z-index: 1;
     position: absolute;
-    top: 0;
+    top: -60%;
     width: 60%;
     height: 30%;
 

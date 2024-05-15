@@ -27,18 +27,20 @@ app.use(bodyParser.json());
 app.post('/register', (req, res) => {
 
     console.log('회원가입 중...');
-    const userData = {
-        username: req.body.username,
-        id: req.body.id,
-        password: req.body.password,
-        uniqueNum: getRowCount(callback)
-    };
-    console.log('Received data:', req.body);
-    // DBManager를 통해 데이터베이스에서 데이터를 가져옵니다.
-    dbManager.insertData(userData, (results) => {
-
-        // 성공적으로 처리되었음을 클라이언트에 응답
-        res.redirect('http://localhost:5500/templates/Main/MainPage.html');
+    dbManager.getRowCount(rowCount => {
+        const userData = {
+            username: req.body.username,
+            id: req.body.id,
+            password: req.body.password,
+            uniqueNum: rowCount+1
+        };
+        console.log('Received data:', userData);
+        
+        // DBManager를 통해 데이터베이스에 데이터를 삽입합니다.
+        dbManager.insertData(userData, (results) => {
+            // 성공적으로 처리되었음을 클라이언트에 응답합니다.
+            res.redirect('http://127.0.0.1:5500/templates/LgnRgstr/LoginPage.html');
+        });
     });
 });
 
@@ -63,7 +65,6 @@ app.post('/login', (req, res) => {
             req.session.username = {
                 username: username
             };
-            console.log('로그인 성공(session): ', session);
             res.redirect('http://localhost:5500/templates/Main/MainPage.html');
         } else {
             console.log('로그인 실패');
@@ -74,10 +75,8 @@ app.post('/login', (req, res) => {
 // 프로필 요청 처리
 app.get('/profile', (req, res) => {
     // 세션에서 사용자 정보 가져오기
-    console.log('profile:', session[privateKey].nm);
     //const username = req.session.data;
     const username = session[privateKey].nm;
-    console.log('profile(res):', username);
     res.json({ username: username }); // 세션에 저장된 사용자 이름을 클라이언트에게 반환
 
 });

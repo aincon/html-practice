@@ -86,21 +86,21 @@ function showCharacterInfo(characterInfo) {
     // stat1 정보 생성
     if (characterInfo.stat1 !== null) {
         const stat1Item = document.createElement('li');
-        stat1Item.textContent = `stat1: ${characterInfo.stat1}`;
+        stat1Item.textContent = `stat1: ${characterInfo.a}`;
         statsList.appendChild(stat1Item);
     }
 
     // stat2 정보 생성
     if (characterInfo.stat2 !== null) {
         const stat2Item = document.createElement('li');
-        stat2Item.textContent = `stat2: ${characterInfo.stat2}`;
+        stat2Item.textContent = `stat2: ${characterInfo.b}`;
         statsList.appendChild(stat2Item);
     }
 
     // stat3 정보 생성
     if (characterInfo.stat3 !== null) {
         const stat3Item = document.createElement('li');
-        stat3Item.textContent = `stat3: ${characterInfo.stat3}`;
+        stat3Item.textContent = `stat3: ${characterInfo.c}`;
         statsList.appendChild(stat3Item);
     }
     nowChar.appendChild(statsList);

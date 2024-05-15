@@ -7,7 +7,7 @@ function toggleChar() {
     if (div.style.display === 'none') {
         div.style.display = 'block';
         button.style.left = "40%";
-        bar.style.left = "-0%";
+        bar.style.left = "0%";
     } else {
         div.style.display = 'none';
         button.style.left = "0";

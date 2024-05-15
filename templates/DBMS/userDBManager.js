@@ -32,10 +32,8 @@ class userDBManager {
     const query = `INSERT INTO userinfo (user_nm, user_id, user_pw, unique_num) VALUES ('${data.username}', '${data.id}', '${data.password}', '${data.uniqueNum}')`;
     this.connection.query(query, (error, results, fields) => {
       if (error) {
-        console.error('쿼리 실행 실패:', error.stack);
         return;
       }
-      console.log('쿼리 실행 결과:', results);
       if (callback) callback(results);
     });
   }
